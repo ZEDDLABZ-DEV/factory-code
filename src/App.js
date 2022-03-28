@@ -1,5 +1,7 @@
+import { Navigation } from "./features/navigation/Index";
+
 function App() {
-  return <div className="text-2xl">Hello</div>;
+  return <Navigation />;
 }
 
 export default App;
