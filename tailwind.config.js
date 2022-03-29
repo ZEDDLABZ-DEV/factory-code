@@ -25,6 +25,10 @@ module.exports = {
         bold: "600",
         extraBold: "700",
       },
+      width: {
+        128: "34rem",
+        140: "36rem",
+      },
     },
   },
   plugins: [],
