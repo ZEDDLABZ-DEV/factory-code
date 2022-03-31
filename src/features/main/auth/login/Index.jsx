@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { Header } from "../../components/Header";
 import LayoutOne from "../../components/layoutOne";
 import LayoutTwo from "../../components/layoutTwo";
@@ -7,8 +7,11 @@ import companyImage from "../../../../assets/images/factoryWithAamdhane.png";
 import FormPhoneNumber from "./components/FormPhoneNumber";
 import FormOtp from "./components/FormOtp";
 import { Link } from "react-router-dom";
+import { UserContext } from "../../../../App";
 
 export const Login = () => {
+  const [verifyOtp, setVerifyOtp] = useState(false);
+  const [confirmResponse, setConfirmOtpResponse] = useState({});
   return (
     <div>
       <Header />
@@ -30,8 +33,17 @@ export const Login = () => {
         </LayoutOne>
         <LayoutTwo>
           <div className="flex flex-col w-full justify-center items-center">
-            <FormPhoneNumber />
-            {/* <FormOtp /> */}
+            {verifyOtp ? (
+              <FormOtp otpResponse={confirmResponse} />
+            ) : (
+              <FormPhoneNumber
+                handleNextPage={(value, response) => {
+                  setVerifyOtp(value);
+                  setConfirmOtpResponse(response);
+                }}
+              />
+            )}
+
             <h1 className="mt-2">
               Don't have an account yet ?{" "}
               <Link

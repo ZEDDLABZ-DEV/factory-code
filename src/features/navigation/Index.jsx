@@ -23,7 +23,7 @@ export const Navigation = () => {
           </Route>
         </>
       ) : null}
-      <Route path="*" element={<Login />} />
+      {/* <Route path="*" element={<Login />} /> */}
     </Routes>
   );
 };
