@@ -1,16 +1,17 @@
-import { initializeApp } from 'firebase/app'
-import { getAuth } from 'firebase/auth'
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-	apiKey: 'AIzaSyCSKI_-ywJLph30WVLnagixIcof4UtPGpg',
-	authDomain: 'aamdhane-testing2.firebaseapp.com',
-	projectId: 'aamdhane-testing2',
-	storageBucket: 'aamdhane-testing2.appspot.com',
-	messagingSenderId: '588020223985',
-	appId: '1:588020223985:web:5a36be0a865edfe688be50',
-	measurementId: 'G-4SJ77Y0K30',
-}
+  apiKey: "AIzaSyBjjM_3NbRRBD_WlWEA96-S5D6W8KXfjA4",
+  authDomain: "aamdhane-testing.firebaseapp.com",
+  databaseURL: "https://aamdhane-testing-default-rtdb.firebaseio.com",
+  projectId: "aamdhane-testing",
+  storageBucket: "aamdhane-testing.appspot.com",
+  messagingSenderId: "136661606352",
+  appId: "1:136661606352:web:ab03f7debfd691fa22e3d5",
+  measurementId: "G-1ZZ87H6GZE",
+};
 
-const app = initializeApp(firebaseConfig)
-export const auth = getAuth(app)
-export default app
+const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);
+export default app;
