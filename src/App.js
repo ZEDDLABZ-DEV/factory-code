@@ -1,6 +1,9 @@
 import { Navigation } from "./features/navigation/Index";
 import { BrowserRouter } from "react-router-dom";
 import { createContext, useReducer, useState } from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const initialState = {
   user_id: "",
   username: "",
@@ -16,6 +19,7 @@ function App() {
   }));
   return (
     <BrowserRouter>
+      <ToastContainer />
       <UserContext.Provider value={{ store, dispatch }}>
         <Navigation />
       </UserContext.Provider>
