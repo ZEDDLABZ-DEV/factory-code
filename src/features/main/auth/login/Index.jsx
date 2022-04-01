@@ -17,7 +17,7 @@ export const Login = () => {
       <Header />
       <div className="flex flex-row z-0">
         <LayoutOne>
-          <div className=" flex flex-col items-center justify-center">
+          <div className="flex flex-col items-center justify-center">
             <img src={heroImage} alt="" className="w-128" />
             <h1 className="text-h1 text-mainText2 w-2/3 text-center font-bold leading-tight">
               Hire the best blue collar workers across the country
@@ -47,7 +47,7 @@ export const Login = () => {
             <h1 className="mt-2">
               Don't have an account yet ?{" "}
               <Link
-                to=""
+                to="/signup"
                 className=" font-bold hover:underline text-primaryBtn"
               >
                 Sign Up

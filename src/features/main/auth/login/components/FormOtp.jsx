@@ -1,29 +1,54 @@
 import React, { useContext, useState } from "react";
 import { UserContext } from "../../../../../App";
 import call from "../../../../../utils/call";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { toast } from "react-toastify";
 
 const FormOtp = ({ otpResponse }) => {
   const userDetails = useContext(UserContext);
-  const [otp, setOtp] = useState("");
+
   const { store, dispatch } = userDetails;
-  const sumbitForm = (e) => {
-    e.preventDefault();
+
+  const verifyOtp = (values) => {
+    console.log(values);
     otpResponse
-      ?.confirm(otp)
-      .then((res) =>
+      ?.confirm(values.otp)
+      .then((res) => {
+        toast.success("OTP Verified Successfully.");
+        console.log(res);
         call({
           route: "api/auth/app-user/login",
           type: "POST",
           body: res?._tokenResponse?.idToken,
         })
-          .then((res) => dispatch({}))
-          .catch(() => {})
-      )
+          .then((res) => {
+            dispatch({});
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
       .catch((e) => console.log("err", e));
   };
 
+  const formik = useFormik({
+    initialValues: {
+      otp: "",
+    },
+    validationSchema: Yup.object({
+      otp: Yup.string()
+        .min(6, "Too short")
+        .max(6, "Too Long")
+        .required("Required"),
+    }),
+    onSubmit: (values) => {
+      verifyOtp(values);
+    },
+  });
+
   return (
-    <form onSubmit={(e) => sumbitForm(e)} className="w-2/3">
+    <form onSubmit={formik.handleSubmit} className="w-2/3">
       <h1 className="text-h1 font-bold text-left text-mainText2 mb-2">
         Verify OTP
       </h1>
@@ -33,14 +58,26 @@ const FormOtp = ({ otpResponse }) => {
       <div>
         <div className="flex flex-row">
           <input
-            onChange={(e) => setOtp(e.target.value)}
-            type="number"
-            className="w-full text-md rounded py-2 shadow-md focus:outline-none px-3 tracking-widest focus:ring-primaryBtn ring-2 ring-white"
+            {...formik.getFieldProps("otp")}
+            className={`w-full text-md rounded py-2 shadow-md focus:outline-none px-3 tracking-widest ring-2 ring-white ${
+              formik.touched.otp && formik.errors.otp
+                ? "focus:ring-red-600 border-2 border-red-600 ring-0"
+                : "focus:ring-primaryBtn"
+            }`}
           />
         </div>
+        {formik.touched.otp && formik.errors.otp ? (
+          <div className="text-right text-red-600 font-semibold">
+            {formik.errors.otp}
+          </div>
+        ) : null}
         <button
           type="submit"
-          className="text-center w-full mt-4 bg-primaryBtn rounded py-2 text-md"
+          className={`text-center w-full mt-4 bg-primaryBtn rounded py-2 text-md text-white font-bold ${
+            formik.touched.otp && formik.errors.otp
+              ? "opacity-50 hover:cursor-default"
+              : "opacity-100"
+          }`}
         >
           Verify OTP
         </button>
@@ -48,7 +85,5 @@ const FormOtp = ({ otpResponse }) => {
     </form>
   );
 };
-
-
 
 export default FormOtp;
