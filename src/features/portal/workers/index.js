@@ -1,56 +1,90 @@
-import { Button, Table } from "antd";
-import React, { useEffect, useState } from "react";
+import { Button, Modal, Table } from "antd";
+import React, { useCallback, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import call from "../../../utils/call";
+import LabourDetail from "./components/labourDetail";
 
 const Workers = () => {
   const [data, setData] = useState([]);
+  const [modal, setModal] = useState(false);
+  const [labourDetails, setLabouDetails] = useState({});
 
   const getData = () => {
     call({
-      url: "https://apitest.aamdhane.com/api/job?size=100",
+      url: "https://apitest.aamdhane.com/api/getAll/labourers",
       type: "GET",
     })
-      .then((res) => setData(res?.data))
+      .then((res) => setData(res))
       .catch(() => {});
   };
   useEffect(() => getData(), []);
-  console.log(data);
+  const getLabourDetails = useCallback((id) => {
+    call({
+      url: "",
+      type: "POST",
+    })
+      .then((res) => setLabouDetails(res))
+      .catch(() => {});
+  }, []);
   const columns = [
     {
       key: "",
-      title: "Heading 1",
+      title: "Name",
       render: (data) => <p>{data?.id}</p>,
+      render: (data) => <p>{data?.name}</p>,
     },
     {
       key: "",
-      title: "Heading 2",
+      title: "Age",
       render: (data) => <p>{data?.id}</p>,
+      render: (data) => <p>{data?.age}</p>,
     },
     {
       key: "",
-      title: "Heading 3",
+      title: "Gender",
+      render: (data) => <p>{data?.gender}</p>,
     },
     {
       key: "",
-      title: "Heading 4",
+      title: "Job Title",
+      render: (data) => <p>{data?.title}</p>,
     },
     {
       key: "",
-      title: "Heading 5",
+      title: "Salary",
+      render: (data) => <p>{data?.salary}</p>,
     },
+    {
+      key: "",
+      title: "Experience",
+      render: (data) => <p>{data?.labour?.expLevel}</p>,
+    },
+    {
+      key: "",
+      title: "phone number",
+      render: (data) => <p>{data?.phone}</p>,
+    },
+
     {
       key: "",
       title: "ACtions",
       width: "auto",
-      render: () => (
+      render: (data) => (
         <div className="felx-flex-row">
-          <Button type="primary">Action1</Button>
-          <Button type="primary">Action1</Button>
-          <Button type="primary">Action1</Button>
+          <href
+            onClick={() => {
+              setModal(true);
+              getLabourDetails(data?.id);
+            }}
+            className=" font-bold hover:underline text-primaryBtn"
+          >
+            View Details
+          </href>
         </div>
       ),
     },
   ];
+
   return (
     <div className="px-20 pt-20 flex flex-col h-full">
       <div className="flex flex-row justify-between">
@@ -66,6 +100,13 @@ const Workers = () => {
       <div className="my-8">
         <Table columns={columns} dataSource={data} />
       </div>
+
+      <LabourDetail
+        width="80%"
+        onCancel={() => setModal(false)}
+        visible={modal}
+        labourDetails={labourDetails}
+      />
     </div>
   );
 };
