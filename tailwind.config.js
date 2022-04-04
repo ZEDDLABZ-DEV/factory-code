@@ -10,7 +10,8 @@ module.exports = {
         primaryBtn: "#00B983",
         mainCard: "#455A64",
         mainDashboard:"#0A6945",
-        mainDashboardText2:"#616161"
+        mainDashboardText2:"#616161",
+        modalText:'#393939'
       },
       fontSize: {
         sm: "16px",

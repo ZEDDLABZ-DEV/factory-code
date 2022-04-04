@@ -1,6 +1,5 @@
 import { Button, Modal, Table } from "antd";
 import React, { useCallback, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import call from "../../../utils/call";
 import LabourDetail from "./components/labourDetail";
 
@@ -20,24 +19,23 @@ const Workers = () => {
   useEffect(() => getData(), []);
   const getLabourDetails = useCallback((id) => {
     call({
-      url: "",
-      type: "POST",
+      url: `https://apitest.aamdhane.com/api/app-user?${id}`,
+      type: "GET",
     })
       .then((res) => setLabouDetails(res))
       .catch(() => {});
   }, []);
+  console.log(labourDetails)
   const columns = [
     {
       key: "",
       title: "Name",
       render: (data) => <p>{data?.id}</p>,
-      render: (data) => <p>{data?.name}</p>,
     },
     {
       key: "",
       title: "Age",
       render: (data) => <p>{data?.id}</p>,
-      render: (data) => <p>{data?.age}</p>,
     },
     {
       key: "",
@@ -67,7 +65,7 @@ const Workers = () => {
 
     {
       key: "",
-      title: "ACtions",
+      title: "Actions",
       width: "auto",
       render: (data) => (
         <div className="felx-flex-row">
@@ -105,7 +103,7 @@ const Workers = () => {
         width="80%"
         onCancel={() => setModal(false)}
         visible={modal}
-        labourDetails={labourDetails}
+        data={labourDetails}
       />
     </div>
   );

@@ -2,26 +2,101 @@ import { Modal } from "antd";
 import React, { useState } from "react";
 
 export const Label = ({ text }) => (
-  <p className="text-md text-mainDashboard font-medium leading-5">{text}</p>
+  <p className="text-sm text-modalText font-medium leading-5">{text}</p>
 );
 
-const LabourDetail = ({ onCancel, visible }) => {
-
-
+const LabourDetail = ({ onCancel, visible, data }) => {
+  console.log(data);
   return (
-    <Modal width="80%" onCancel={onCancel} visible={visible}>
-      <div className="h-full w-full flex flex-row justify-between space-y-4">
-        <div>{/* Image comes here */}</div>
-        <div className="flex flex-col space-y-2">
-          <div className="flex flex-row w">
-            <Label text="Name" />
-            <Label text="Name" />
+    <Modal width="50%" onCancel={onCancel} visible={visible}>
+      <div
+        style={{
+          flexDirection: "row",
+          height: "100%",
+          display: "flex",
+          justifyContent: "space-evenly",
+          minHeight: 400,
+          alignItems: "center",
+        }}
+      >
+        <div style={{ width: "10%" }}>Image</div>
+        <div style={{ flexDirection: "column", display: "flex", width: "60%" }}>
+          <p
+            style={{
+              fontSize: 36,
+              color: "black",
+              fontWeight: 600,
+              paddingBottom: 20,
+            }}
+          >
+            {data?.name}
+          </p>
+
+          <div
+            style={{
+              justifyContent: "space-between",
+              flexDirection: "row",
+              display: "flex",
+              paddingBottom: 20,
+            }}
+          >
+            <Label text="Age" />
+            <Label text={data?.age} />
           </div>
-        </div>
-        <div className="flex flex-col">
-          <div className="flex flex-row w">
-            <Label text="Name" />
-            <Label text="Name" />
+          <div
+            style={{
+              justifyContent: "space-between",
+              flexDirection: "row",
+              display: "flex",
+              paddingBottom: 20,
+            }}
+          >
+            <Label text="Experience" />
+            <Label text={data?.millOwner?.expLevel} />
+          </div>
+          <div
+            style={{
+              justifyContent: "space-between",
+              flexDirection: "row",
+              display: "flex",
+              paddingBottom: 20,
+            }}
+          >
+            <Label text="phone number" />
+            <Label text={data?.phone} />
+          </div>
+          <div
+            style={{
+              justifyContent: "space-between",
+              flexDirection: "row",
+              display: "flex",
+              paddingBottom: 20,
+            }}
+          >
+            <Label text="State" />
+            <Label text={data?.state} />
+          </div>
+          <div
+            style={{
+              justifyContent: "space-between",
+              flexDirection: "row",
+              display: "flex",
+              paddingBottom: 20,
+            }}
+          >
+            <Label text="Experience" />
+            <Label text={data?.millOwner?.expLevel} />
+          </div>
+          <div
+            style={{
+              justifyContent: "space-between",
+              flexDirection: "row",
+              display: "flex",
+              paddingBottom: 20,
+            }}
+          >
+            <Label text="Skills" />
+            <Label text={data?.skills} />
           </div>
         </div>
       </div>
