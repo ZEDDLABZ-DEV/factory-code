@@ -5,6 +5,9 @@ import { Routes, Route } from "react-router-dom";
 import { Login } from "../main/auth/login/Index";
 import { SignUp } from "../main/auth/signup/Index";
 import { Dashboard } from "../portal/dashboard/Index";
+import DashboardStats from "../portal/dashboardStats";
+import JobPosts from "../portal/jobPosts/Index";
+
 
 export const Navigation = () => {
   const user = true;
@@ -20,7 +23,8 @@ export const Navigation = () => {
       {user ? (
         <>
           <Route path="/portal" element={<Dashboard />}>
-            <Route path="dashboard" element={<div> Hello</div>} />
+            <Route path="dashboard" element={<DashboardStats />} />
+            <Route path="jobPosts" element={<JobPosts />} />
           </Route>
         </>
       ) : null}
