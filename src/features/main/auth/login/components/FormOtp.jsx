@@ -4,6 +4,7 @@ import call from "../../../../../utils/call";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 const FormOtp = ({ otpResponse }) => {
   const userDetails = useContext(UserContext);
@@ -11,25 +12,21 @@ const FormOtp = ({ otpResponse }) => {
   const { store, dispatch } = userDetails;
 
   const verifyOtp = (values) => {
-    console.log(values);
     otpResponse
       ?.confirm(values.otp)
       .then((res) => {
         toast.success("OTP Verified Successfully.");
-        console.log(res);
-        call({
-          route: "api/auth/app-user/login",
-          type: "POST",
-          body: res?._tokenResponse?.idToken,
+        axios({
+          method: "post",
+          url: "https://apitest.aamdhane.com/api/auth/app-user/login",
+          data: {
+            idToken: res?._tokenResponse?.idToken,
+          },
         })
-          .then((res) => {
-            dispatch({});
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+          .then((res) => {})
+          .catch(() => {});
       })
-      .catch((e) => console.log("err", e));
+      .catch(() => {});
   };
 
   const formik = useFormik({

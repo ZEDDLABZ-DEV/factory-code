@@ -47,7 +47,7 @@ export const Dashboard = () => {
             key="1"
             icon={<DashboardOutlined style={{ fontSize: "18px" }} />}
             style={{ fontSize: "18px", display: "flex", color: "#fff" }}
-            onClick={() => navigate("/business/dashboard")}
+            onClick={() => navigate("/portal/dashboard")}
           >
             Dashboard
           </Menu.Item>
