@@ -1,10 +1,8 @@
 import { Button, Table } from "antd";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import call from "../../../utils/call";
-// import call from "../../../utils/call";
 
-const JobPosts = () => {
+const Workers = () => {
   const [data, setData] = useState([]);
 
   const getData = () => {
@@ -54,11 +52,22 @@ const JobPosts = () => {
     },
   ];
   return (
-    <div>
-      JobPosts
-      <Table columns={columns} dataSource={data} />
+    <div className="px-20 pt-20 flex flex-col h-full">
+      <div className="flex flex-row justify-between">
+        <h1 className="text-lg text-mainDashboard font-extraBold leading-6">
+          {" "}
+          Manage workers{" "}
+        </h1>
+        <div className="bg-white shadow-lg flex flex-row h-14 w-80 px-2 justify-between">
+          <p>Total Workers</p>
+          <p>20</p>
+        </div>
+      </div>
+      <div className="my-8">
+        <Table columns={columns} dataSource={data} />
+      </div>
     </div>
   );
 };
 
-export default JobPosts;
+export default Workers;
