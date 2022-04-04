@@ -5,25 +5,44 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const FormOtp = ({ otpResponse }) => {
   const userDetails = useContext(UserContext);
 
   const { store, dispatch } = userDetails;
-
+  console.log("STORE",store)
+const navigation = useNavigate()
   const verifyOtp = (values) => {
     otpResponse
       ?.confirm(values.otp)
       .then((res) => {
         toast.success("OTP Verified Successfully.");
+        console.log("res", res);
         axios({
-          method: "post",
+          method: "POST",
           url: "https://apitest.aamdhane.com/api/auth/app-user/login",
           data: {
             idToken: res?._tokenResponse?.idToken,
           },
         })
-          .then((res) => {})
+          .then((res) => {
+            dispatch({ token: res?.data?.token });
+            axios({
+              method: "GET",
+              url: "https://apitest.aamdhane.com/api/auth/app-user/login",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${res?.data?.token}`,
+              },
+            })
+              .then((res) => {
+                dispatch({ data: res?.data });
+                navigation('/portal/jobPosts')
+              })
+              .catch(() => {});
+          })
+
           .catch(() => {});
       })
       .catch(() => {});

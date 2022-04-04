@@ -55,35 +55,35 @@ export const Dashboard = () => {
             key="2"
             icon={<UnorderedListOutlined style={{ fontSize: "18px" }} />}
             style={{ fontSize: "18px", display: "flex", color: "#fff" }}
-            onClick={() => navigate("/business/product")}
+            onClick={() => navigate("/portal/factory")}
           >
-            Products
+            Factory
           </Menu.Item>
           <Menu.Item
             key="3"
             icon={<QrcodeOutlined style={{ fontSize: "18px" }} />}
             style={{ fontSize: "18px", display: "flex", color: "#fff" }}
-            onClick={() => navigate("/business/generateqr")}
+            onClick={() => navigate("/portal/jobPosts")}
           >
-            Generate QR
+            Job Posts
           </Menu.Item>
           <Menu.Item
             key="4"
             icon={<FundProjectionScreenOutlined style={{ fontSize: "18px" }} />}
             style={{ fontSize: "18px", display: "flex", color: "#fff" }}
-            onClick={() => navigate("/business/generationplan")}
+            onClick={() => navigate("/portal/workers")}
           >
-            Generation Plan
+            workers
           </Menu.Item>
           <Menu.Item
             key="5"
             icon={<FormOutlined style={{ fontSize: "18px" }} />}
             style={{ fontSize: "18px", display: "flex", color: "#fff" }}
-            onClick={() => navigate("/business/requestpoints")}
+            onClick={() => navigate("/portal/complaints")}
           >
-            Points Request
+            Complaints
           </Menu.Item>
-          <Menu.Item
+          {/* <Menu.Item
             key="6"
             icon={<FileOutlined style={{ fontSize: "18px" }} />}
             style={{ fontSize: "18px", display: "flex", color: "#fff" }}
@@ -98,12 +98,12 @@ export const Dashboard = () => {
             onClick={() => navigate("/business/history")}
           >
             History
-          </Menu.Item>
+          </Menu.Item> */}
         </Menu>
       </Sider>
       <Layout className="site-layout">
         <HeaderElement />
-        <Content style={{ margin: "0 16px" }}>
+        <Content>
           {/* For Managing Component Change within the Nested Routes Outlet is used*/}
           <Outlet />
         </Content>

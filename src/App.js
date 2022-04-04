@@ -5,8 +5,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const initialState = {
-  user_id: "",
-  username: "",
+  data: {},
   token: "",
 };
 

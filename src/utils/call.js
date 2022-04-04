@@ -5,8 +5,7 @@ import { UserContext } from "../App";
 export const API_URL = "https://testapi.aamdhane.com/";
 const UserToken = () => {
   const userDetails = useContext(UserContext);
-  const { token } = userDetails;
-  return token;
+  return userDetails;
 };
 
 const call = ({ type, url, body, headers }) => {
@@ -17,11 +16,17 @@ const call = ({ type, url, body, headers }) => {
       data: body,
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.OA.K96AINFLP86PU7FCoLXlZQvUMPwFwduzx4Zc8cA911o`,
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.NA.uPbMfuJyLpfeecmvcNluf3UQ78VozLrQcdHGBYKrs6w`,
       },
     })
-      .then((response) => resolve(response.data))
-      .catch((error) => reject(error));
+      .then((response) => {
+        console.log("response", response);
+        resolve(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+        reject(error);
+      });
   });
 };
 
