@@ -5,6 +5,7 @@ import { UserContext } from "../../App";
 // Importing all the Components
 import { Login } from "../main/auth/login/Index";
 import { SignUp } from "../main/auth/signup/Index";
+import Complaints from "../portal/complaints";
 import { Dashboard } from "../portal/dashboard/Index";
 import DashboardStats from "../portal/dashboardStats";
 import Factory from "../portal/factory";
@@ -32,6 +33,7 @@ const user = true
             <Route path="jobPosts" element={<JobPosts />} />
             <Route path="factory" element={<Factory />} />
             <Route path="workers" element={<Workers />} />
+            <Route path="complaints" element={<Complaints />} />
           </Route>
         </>
       ) : null}
