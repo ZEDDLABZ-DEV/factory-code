@@ -3,13 +3,17 @@ import Card from "./components/card";
 import call from "../../../utils/call";
 import { UserContext } from "../../../App";
 import axios from "axios";
+import JobPostCard from "./components/JobPostCard";
+
 const DashboardStats = () => {
   const [data, setData] = useReducer(
     (state, diff) => ({ ...state, ...diff }),
     {}
   );
+
   const userDetails = useContext(UserContext);
-  console.log(userDetails);
+  console.log(userDetails, "Hello");
+
   const getData = () => {
     Promise.all([
       call({
@@ -32,7 +36,6 @@ const DashboardStats = () => {
     ])
 
       .then((res) => {
-        console.log(res);
         setData({
           jobs: res[0],
           jobApplications: res[1],
@@ -43,19 +46,19 @@ const DashboardStats = () => {
       .catch(() => {});
   };
   useEffect(() => getData(), []);
+
   const { jobs, jobApplications, mills, workers } = data;
-  console.log(jobs, jobApplications, mills, workers);
 
   return (
-    <div className="flex flex-col w-full h-full">
-      <div className="px-20 pt-20">
-        <h1 className="text-h1 text-mainDashboard font-semibold leading-6 pb-2">
-          Hi mukesh!
+    <div className="flex flex-col w-full h-full bg-[#F5F5F5] ">
+      <div className="px-10 pt-10">
+        <h1 className="text-h1 text-mainDashboard font-semibold leading-6 pb-4">
+          Hi {userDetails?.store?.data?.name}
         </h1>
         <p className="text-md font-bold leading-4 text-mainDashboardText2">
           Welcome to aamdhane
         </p>
-        <div className="pt-24 flex flex-row justify-evenly">
+        <div className="pt-8 flex flex-row justify-between">
           <Card title="Total Job posts" text={jobs?.totalJobs} />
           <Card
             title="Pending Applications"
@@ -68,19 +71,34 @@ const DashboardStats = () => {
           <Card title="Total Job posts" text={12} />
         </div>
       </div>
-      <div className="h-16 shadow-lg mt-auto bg-white w-full flex flex-row justify-center  space-x-6">
-        <h1 className="text-sm text-mainDashboard font-semibold leading-6 flex flex-row text-center ">
-          Total workers on Aamdhane{" "}
-          <p className="text-lg text-mainDashboard font-extraBold leading-6 px-4">
-            {workers?.totalLabourers}
-          </p>
+      <div className="px-10 pt-10 pb-14">
+        <h1 className="text-h1 text-mainDashboard font-semibold leading-6 pb-4">
+          Live Job Posts
         </h1>
-        <h1 className="text-sm text-mainDashboard font-semibold leading-6 flex flex-row text-center ">
-          Total workers on Aamdhane{" "}
-          <p className="text-lg text-mainDashboard font-extraBold leading-6 px-4">
-            {mills?.totalMills}
-          </p>
-        </h1>
+        <JobPostCard />
+        <JobPostCard />
+        <JobPostCard />
+        <JobPostCard />
+        <JobPostCard />
+        <JobPostCard />
+        <JobPostCard />
+        <JobPostCard />
+      </div>
+      <div className="fixed bottom-0 w-full">
+        <div className="h-16 drop-shadow-lg mt-auto bg-white w-full flex flex-row justify-evenly items-center space-x-6">
+          <h1 className="text-sm text-mainDashboard font-semibold leading-6 flex flex-row text-center ">
+            Total workers on Aamdhane{" "}
+            <p className="text-2xl text-mainDashboard font-extraBold leading-6 px-4">
+              {workers?.totalLabourers}
+            </p>
+          </h1>
+          <h1 className="text-sm text-mainDashboard font-semibold leading-6 flex flex-row text-center">
+            Total Factories on Aamdhane{" "}
+            <p className="text-2xl text-mainDashboard font-extraBold leading-6 px-4">
+              {mills?.totalMills}
+            </p>
+          </h1>
+        </div>
       </div>
     </div>
   );
