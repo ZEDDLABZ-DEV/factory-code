@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { Routes, Route } from "react-router-dom";
+import React, { useContext, useEffect } from "react";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import { UserContext } from "../../App";
 
 // Importing all the Components
@@ -12,12 +12,26 @@ import Factory from "../portal/factory";
 import JobPosts from "../portal/jobPosts/Index";
 import Workers from "../portal/workers";
 
-
 export const Navigation = () => {
-const userDetails = useContext(UserContext)
-const {store} = userDetails
-console.log(store)
-const user = true
+  const userDetails = useContext(UserContext);
+  const navigate = useNavigate();
+
+  const { store, dispatch } = userDetails;
+
+  console.log(store?.token, store?.data);
+
+  useEffect(() => {
+    if (store?.token && store?.data) {
+      navigate("/portal/dashboard");
+    } else {
+      const tokenLocal = JSON.parse(localStorage.getItem("jwt"));
+      const userLocal = JSON.parse(localStorage.getItem("userDetails"));
+      if (tokenLocal && userLocal) {
+        dispatch({ data: userLocal, token: tokenLocal });
+      }
+    }
+  }, []);
+
   return (
     <Routes>
       <Route path="/" element={<Login />} />
@@ -26,7 +40,7 @@ const user = true
 
       {/* Handling the Business User Routes */}
 
-      {user ? (
+      {store?.token ? (
         <>
           <Route path="/portal" element={<Dashboard />}>
             <Route path="dashboard" element={<DashboardStats />} />
@@ -37,7 +51,7 @@ const user = true
           </Route>
         </>
       ) : null}
-      {/* <Route path="*" element={<Login />} /> */}
+      <Route path="*" element={<Login />} />
     </Routes>
   );
 };
