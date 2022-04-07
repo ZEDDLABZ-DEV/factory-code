@@ -56,7 +56,7 @@ export const HeaderElement = () => {
                   borderRadius: 14,
                 }}
               />
-              <DownOutlined style={{ color: "#0A6945", paddingLeft: 8 }} />,
+              <DownOutlined style={{ color: "#0A6945", paddingLeft: 8 }} />
             </div>
           </div>
         </Dropdown>
