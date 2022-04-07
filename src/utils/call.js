@@ -1,13 +1,8 @@
 import axios from "axios";
-import { useContext } from "react";
-import { UserContext } from "../App";
 
 export const API_URL = "https://testapi.aamdhane.com/";
-const UserToken = () => {
-  const userDetails = useContext(UserContext);
-  return userDetails;
-};
 
+const token = JSON.parse(localStorage.getItem("jwt"));
 const call = ({ type, url, body, headers }) => {
   return new Promise((resolve, reject) => {
     axios({
@@ -16,11 +11,10 @@ const call = ({ type, url, body, headers }) => {
       data: body,
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.NA.uPbMfuJyLpfeecmvcNluf3UQ78VozLrQcdHGBYKrs6w`,
+        Authorization: `Bearer ${token}`,
       },
     })
       .then((response) => {
-        console.log("response", response);
         resolve(response.data);
       })
       .catch((error) => {
