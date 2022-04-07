@@ -30,7 +30,7 @@ export const Dashboard = () => {
         collapsible
         collapsed={collapsed}
         onCollapse={() => setCollapsed(!collapsed)}
-        style={{ backgroundColor: "#140035" }}
+        style={{ backgroundColor: "#0A6945" }}
       >
         <img
           src={Logo}
@@ -41,7 +41,7 @@ export const Dashboard = () => {
           theme="dark"
           defaultSelectedKeys={["1"]}
           mode="inline"
-          style={{ backgroundColor: "#140035" }}
+          style={{ backgroundColor: "#0A6945" }}
         >
           <Menu.Item
             key="1"

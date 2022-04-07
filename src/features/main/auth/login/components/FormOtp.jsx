@@ -11,8 +11,8 @@ const FormOtp = ({ otpResponse }) => {
   const userDetails = useContext(UserContext);
 
   const { store, dispatch } = userDetails;
-  console.log("STORE",store)
-const navigation = useNavigate()
+  console.log("STORE", store);
+  const navigation = useNavigate();
   const verifyOtp = (values) => {
     otpResponse
       ?.confirm(values.otp)
@@ -28,6 +28,7 @@ const navigation = useNavigate()
         })
           .then((res) => {
             dispatch({ token: res?.data?.token });
+            localStorage.setItem("jwt", JSON.stringify(res?.data?.token));
             axios({
               method: "GET",
               url: "https://apitest.aamdhane.com/api/auth/app-user/login",
@@ -38,7 +39,8 @@ const navigation = useNavigate()
             })
               .then((res) => {
                 dispatch({ data: res?.data });
-                navigation('/portal/jobPosts')
+                localStorage.setItem("userDetails", JSON.stringify(res?.data));
+                navigation("/portal/dashboard");
               })
               .catch(() => {});
           })
