@@ -1,6 +1,7 @@
 import { Button, Table } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import call from "../../../utils/call";
 // import call from "../../../utils/call";
 
@@ -16,7 +17,7 @@ const JobPosts = () => {
       .catch(() => {});
   };
   useEffect(() => getData(), []);
-  console.log(data);
+  const navigate = useNavigate();
   const columns = [
     {
       key: "",
@@ -57,6 +58,9 @@ const JobPosts = () => {
     <div>
       JobPosts
       <Table columns={columns} dataSource={data} />
+      <Button onClick={() => navigate("/portal/jobPosts/create")}>
+        Create new Job Post
+      </Button>
     </div>
   );
 };
