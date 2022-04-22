@@ -6,6 +6,8 @@ export const Label = ({ text }) => (
   <p className="text-sm text-modalText font-medium leading-5">{text}</p>
 );
 
+
+
 const ViewComplaint = ({ onCancel, visible, data }) => {
   console.log(data);
   return (
@@ -24,7 +26,7 @@ const ViewComplaint = ({ onCancel, visible, data }) => {
           width:'100%'
         }}
       >
-        <h2 style={{ paddingVertical: 12,fontSize:20,color:colors.mainText1,fontWeight:fontWeight.semiBold }}>Complaint No. 001</h2>
+        <h2 style={{ paddingVertical: 12,fontSize:20,color:colors.mainText1,fontWeight:fontWeight.semiBold }}>Complaint No. {data?.id}</h2>
         <div
           style={{
             backgroundColor: "#FAFAFA",
@@ -35,10 +37,10 @@ const ViewComplaint = ({ onCancel, visible, data }) => {
             borderRadius:'8px'
           }}
         >
-          <p style={{padding:12}}>Text comes here...</p>
+          <p style={{padding:12}}>{data?.issue}</p>
         </div>
         <div style={{ display:'flex', flexDirection: "row", justifyContent: "space-between" }}>
-          <p>Raised on: 31st july</p>
+          <p>Raised on: {data?.dateOfIssue}</p>
           <Button>Reslove</Button>
         </div>
       </div>

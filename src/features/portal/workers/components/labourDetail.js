@@ -6,7 +6,7 @@ export const Label = ({ text }) => (
 );
 
 const LabourDetail = ({ onCancel, visible, data }) => {
-  console.log(data);
+  console.log(data.imageUrl);
   return (
     <Modal width="50%" onCancel={onCancel} visible={visible}>
       <div
@@ -19,8 +19,10 @@ const LabourDetail = ({ onCancel, visible, data }) => {
           alignItems: "center",
         }}
       >
-        <div style={{ width: "10%" }}>Image</div>
-        <div style={{ flexDirection: "column", display: "flex", width: "60%" }}>
+        <div className="">
+          <image src={data.imageUrl} alt="" className="min-w-40 min-h-40" />
+        </div>
+        <div>
           <p
             style={{
               fontSize: 36,
