@@ -27,9 +27,6 @@ const Workers = () => {
       .catch(() => {});
   }, []);
 
-
-  console.log(data)
-
   useEffect(() => getData(), []);
 
   const columns = [

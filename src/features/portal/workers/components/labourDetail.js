@@ -6,7 +6,6 @@ export const Label = ({ text }) => (
 );
 
 const LabourDetail = ({ onCancel, visible, data }) => {
-  console.log(data.imageUrl);
   return (
     <Modal width="50%" onCancel={onCancel} visible={visible}>
       <div

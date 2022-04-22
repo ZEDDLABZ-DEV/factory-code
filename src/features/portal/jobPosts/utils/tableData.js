@@ -56,6 +56,16 @@ export const gender = [
     name: "Female",
   },
 ];
+export const salaryType = [
+  {
+    id: "per_shift",
+    name: "Per shift",
+  },
+  {
+    id: "per_piece",
+    name: "Per piece",
+  },
+];
 export const hours = [
   {
     id: 1,

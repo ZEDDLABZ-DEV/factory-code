@@ -7,7 +7,7 @@ const call = ({ type, url, body, headers }) => {
   return new Promise((resolve, reject) => {
     axios({
       method: type,
-      url: `${API_URL}${url}`,
+      url: url?.includes(API_URL) ? `${url}` : `${API_URL}${url}`,
       data: body,
       headers: {
         "Content-Type": "application/json",

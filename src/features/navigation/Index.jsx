@@ -21,8 +21,6 @@ export const Navigation = () => {
 
   const { store, dispatch } = userDetails;
 
-  console.log(store?.token, store?.data);
-
   useEffect(() => {
     if (store?.token && store?.data) {
       navigate("/portal/dashboard");

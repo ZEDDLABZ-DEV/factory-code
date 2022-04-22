@@ -11,14 +11,12 @@ const FormOtp = ({ otpResponse }) => {
   const userDetails = useContext(UserContext);
 
   const { store, dispatch } = userDetails;
-  console.log("STORE", store);
   const navigation = useNavigate();
   const verifyOtp = (values) => {
     otpResponse
       ?.confirm(values.otp)
       .then((res) => {
         toast.success("OTP Verified Successfully.");
-        console.log("res", res);
         axios({
           method: "POST",
           url: "https://apitest.aamdhane.com/api/auth/app-user/login",
