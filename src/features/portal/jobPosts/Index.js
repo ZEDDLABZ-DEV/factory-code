@@ -1,14 +1,12 @@
-import { Button, Table } from "antd";
-import axios from "axios";
+import { Button } from "antd";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import call from "../../../utils/call";
 import JobPostCard from "./components/JobPostCard";
 
-
 const JobPosts = () => {
   const [jobPostsData, setJobPostsData] = useState([]);
-
+  const navigate = useNavigate();
   const getData = () => {
     call({
       url: "/api/job?size=100",
@@ -19,26 +17,26 @@ const JobPosts = () => {
   };
   useEffect(() => getData(), []);
 
-  console.log(jobPostsData)
-
   return (
     <div className="px-12 pt-10 flex flex-col h-full">
       <div className="flex items-center justify-between mb-8">
-      <h1 className="text-h1 text-mainDashboard font-extraBold leading-6 ">
-        Live Job Posts
-      </h1>
-      <Button>Create New</Button>
+        <h1 className="text-h1 text-mainDashboard font-extraBold leading-6 ">
+          Live Job Posts
+        </h1>
+        <Button onClick={() => navigate("/portal/jobPosts/create")}>
+          Create New
+        </Button>
       </div>
       {jobPostsData?.map((data) => (
-          <JobPostCard
-            key={data.id}
-            jobTitle={data.jobTitle}
-            skills={data.skillReq}
-            shiftSalary={data.salaryPerShift}
-            expReq={data.expReq}
-            reqWorkers={data.peopleReq}
-          />
-        ))}
+        <JobPostCard
+          key={data.id}
+          jobTitle={data.jobTitle}
+          skills={data.skillReq}
+          shiftSalary={data.salaryPerShift}
+          expReq={data.expReq}
+          reqWorkers={data.peopleReq}
+        />
+      ))}
     </div>
   );
 };
