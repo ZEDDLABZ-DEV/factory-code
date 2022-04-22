@@ -5,10 +5,11 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const FormOtp = ({ otpResponse }) => {
   const userDetails = useContext(UserContext);
+  const navigate = useNavigate();
 
   const { store, dispatch } = userDetails;
   console.log("STORE", store);
@@ -47,7 +48,7 @@ const FormOtp = ({ otpResponse }) => {
 
           .catch(() => {});
       })
-      .catch(() => {});
+      .catch(() => {navigate("/signup"); toast.error("Invalid OTP or Unregistered User")});
   };
 
   const formik = useFormik({

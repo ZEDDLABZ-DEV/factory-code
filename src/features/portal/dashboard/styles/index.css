@@ -8,6 +8,11 @@
   background: #fff;
 }
 
+.ant-menu-item-selected *, .ant-menu-item-selected .ant-menu-title-content {
+  background-color: #fff;
+  color: #000;
+}
+
 .site-layout-background {
   background: #140035;
 }
@@ -15,4 +20,3 @@
 .ant-layout-sider-trigger {
   background-color: rgba(141, 141, 141, 0.1);
 }
-

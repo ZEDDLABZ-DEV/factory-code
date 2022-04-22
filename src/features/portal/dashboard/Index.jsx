@@ -46,7 +46,7 @@ export const Dashboard = () => {
           <Menu.Item
             key="1"
             icon={<DashboardOutlined style={{ fontSize: "18px" }} />}
-            style={{ fontSize: "18px", display: "flex", color: "#fff" }}
+            style={{ fontSize: "18px", display: "flex" }}
             onClick={() => navigate("/portal/dashboard")}
           >
             Dashboard
