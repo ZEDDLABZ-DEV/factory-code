@@ -83,27 +83,28 @@ export const Dashboard = () => {
           >
             Complaints
           </Menu.Item>
-          {/* <Menu.Item
+          <Menu.Item
             key="6"
             icon={<FileOutlined style={{ fontSize: "18px" }} />}
             style={{ fontSize: "18px", display: "flex", color: "#fff" }}
-            onClick={() => navigate("/business/documents")}
+            onClick={() => navigate("/portal/settings")}
           >
-            Documents
+            Settings
           </Menu.Item>
+
           <Menu.Item
             key="7"
             icon={<HistoryOutlined style={{ fontSize: "18px" }} />}
             style={{ fontSize: "18px", display: "flex", color: "#fff" }}
-            onClick={() => navigate("/business/history")}
+            onClick={() => navigate("/portal/support")}
           >
-            History
-          </Menu.Item> */}
+            Support
+          </Menu.Item>
         </Menu>
       </Sider>
       <Layout className="site-layout">
         <HeaderElement />
-        <Content>
+        <Content style={{ backgroundColor: "#F5F5F5" }}>
           {/* For Managing Component Change within the Nested Routes Outlet is used*/}
           <Outlet />
         </Content>

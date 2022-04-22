@@ -1,3 +1,4 @@
-.ant-menu-item-selected{
-    background-color: "#fff";
-}
+.ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item-selected {
+    background-color: #fff;
+    marginLeft:10px
+  }

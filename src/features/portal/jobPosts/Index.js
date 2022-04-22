@@ -55,9 +55,13 @@ const JobPosts = () => {
     },
   ];
   return (
-    <div>
-      JobPosts
-      <Table columns={columns} dataSource={data} />
+    <div className="px-12 pt-10 flex flex-col h-full">
+      <h1 className="text-h1 text-mainDashboard font-extraBold leading-6 mb-8">
+        Job Posts
+      </h1>
+      <div>
+          <Table columns={columns} dataSource={data} />
+      </div>
       <Button onClick={() => navigate("/portal/jobPosts/create")}>
         Create new Job Post
       </Button>

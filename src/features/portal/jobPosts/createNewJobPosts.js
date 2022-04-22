@@ -44,7 +44,7 @@ const CreateNewJobPosts = () => {
   };
   console.log(Object.values(data));
   return (
-    <div>
+    <div className="px-12 pt-10 flex flex-col h-full">
       <Table
         rowSelection={{ ...rowSelection }}
         rowKey="id"
