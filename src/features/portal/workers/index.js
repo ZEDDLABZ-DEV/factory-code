@@ -1,4 +1,5 @@
-import { Button, Modal, Table } from "antd";
+import { Button, Modal } from "antd";
+import { DataTable } from "../components/table/Index";
 import React, { useCallback, useEffect, useState } from "react";
 import call from "../../../utils/call";
 import LabourDetail from "./components/labourDetail";
@@ -6,26 +7,31 @@ import LabourDetail from "./components/labourDetail";
 const Workers = () => {
   const [data, setData] = useState([]);
   const [modal, setModal] = useState(false);
-  const [labourDetails, setLabouDetails] = useState({});
+  const [labourDetails, setLabourDetails] = useState({});
 
   const getData = () => {
     call({
-      url: "https://apitest.aamdhane.com/api/getAll/labourers",
+      url: "/api/getAll/labourers",
       type: "GET",
     })
       .then((res) => setData(res))
       .catch(() => {});
   };
-  useEffect(() => getData(), []);
+
   const getLabourDetails = useCallback((id) => {
     call({
       url: `https://apitest.aamdhane.com/api/app-user?${id}`,
       type: "GET",
     })
-      .then((res) => setLabouDetails(res))
+      .then((res) => setLabourDetails(res))
       .catch(() => {});
   }, []);
-  console.log(labourDetails)
+
+
+  console.log(data)
+
+  useEffect(() => getData(), []);
+
   const columns = [
     {
       key: "",
@@ -84,19 +90,22 @@ const Workers = () => {
   ];
 
   return (
-    <div className="px-20 pt-20 flex flex-col h-full">
-      <div className="flex flex-row justify-between">
-        <h1 className="text-lg text-mainDashboard font-extraBold leading-6">
+    <div className="px-12 pt-10 flex flex-col h-full">
+      <div className="flex flex-row justify-between items-center">
+        <h1 className="text-h1 text-mainDashboard font-extraBold leading-6">
           {" "}
           Manage workers{" "}
         </h1>
-        <div className="bg-white shadow-lg flex flex-row h-14 w-80 px-2 justify-between">
-          <p>Total Workers</p>
-          <p>20</p>
+        <div className="bg-white flex flex-row w-80 justify-between text-md py-1 px-4 border-2 rounded">
+          <p>
+            Total
+            <br /> Workers
+          </p>
+          <p className="font-bold text-h1">20</p>
         </div>
       </div>
       <div className="my-8">
-        <Table columns={columns} dataSource={data} />
+        <DataTable columns={columns} dataSource={data} />
       </div>
 
       <LabourDetail
