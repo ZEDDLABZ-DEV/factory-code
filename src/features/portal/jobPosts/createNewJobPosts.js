@@ -1,31 +1,14 @@
-import {
-  Button,
-  Carousel,
-  Divider,
-  Input,
-  Modal,
-  Radio,
-  Select,
-  Table,
-} from "antd";
+import { Button, Carousel, Input, Modal, Select, Table } from "antd";
 import { isEmpty } from "lodash";
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useEffect, useState } from "react";
 import call from "../../../utils/call";
-import {
-  experience,
-  gender,
-  hours,
-  jobsTitle,
-  salaryType,
-  skills,
-} from "./utils/tableData";
+import { experience, gender, hours, salaryType } from "./utils/tableData";
 
 const CreateNewJobPosts = () => {
   const [data, setData] = useState([]);
   const [modal, setModal] = useState(false);
   const [view, setView] = useState(0);
   const [industry, setIndustry] = useState([]);
-  const [dummy, setDummy] = useState([]);
   const { Option } = Select;
 
   const contentStyle = {
