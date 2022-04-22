@@ -17,7 +17,6 @@ const DashboardStats = () => {
   );
 
   const userDetails = useContext(UserContext);
-  console.log(userDetails, "Hello");
 
   const getData = () => {
     Promise.all([
@@ -85,7 +84,6 @@ const DashboardStats = () => {
     mills,
   } = data;
   const { jobPostsData } = jobPosts;
-  console.log(jobPostsData);
 
   return (
     <div className="flex flex-col w-full h-full bg-[#F5F5F5] overflow-y-scroll">
@@ -121,7 +119,10 @@ const DashboardStats = () => {
         ))}
       </div>
       <div className="fixed bottom-0 w-full">
-        <div className="h-12 mt-auto bg-white w-full flex flex-row justify-evenly items-center space-x-6" style={{boxShadow:"0px -1px 4px #e1e1e1"}}>
+        <div
+          className="h-12 mt-auto bg-white w-full flex flex-row justify-evenly items-center space-x-6"
+          style={{ boxShadow: "0px -1px 4px #e1e1e1" }}
+        >
           <h1 className="text-sm text-mainDashboard font-semibold leading-6 flex flex-row text-center ">
             Total workers on Aamdhane{" "}
             <p className="text-xl text-mainDashboard font-extraBold leading-6 px-4">
