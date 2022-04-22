@@ -25,7 +25,6 @@ const FormPhoneNumber = ({ handleNextPage }) => {
     try {
       const response = await setUpRecaptcha(number);
       if (response) {
-        console.log(response);
         handleNextPage(true, response);
         toast.success("OTP Sent Successfully");
       }
