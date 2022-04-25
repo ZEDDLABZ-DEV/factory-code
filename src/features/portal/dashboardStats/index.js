@@ -115,6 +115,7 @@ const DashboardStats = () => {
             shiftSalary={data.salaryPerShift}
             expReq={data.expReq}
             reqWorkers={data.peopleReq}
+            id={data.id}
           />
         ))}
       </div>

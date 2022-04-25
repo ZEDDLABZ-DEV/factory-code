@@ -79,10 +79,8 @@ const CreateNewJobPosts = () => {
     setCurrentJobs(jobs);
   };
 
-  const createJob = (data) => {
-    console.log(data);
-    const jobs = [...data];
-    const newData = { jobs };
+  const createJob = () => {
+    const newData = { currentJobs };
 
     call({
       url: `/api/job/bulk-insert/${userContext?.store?.data?.millOwner?.millInfo?.id}`,

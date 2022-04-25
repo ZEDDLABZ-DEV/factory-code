@@ -14,6 +14,7 @@ import JobPosts from "../portal/jobPosts/Index";
 import Workers from "../portal/workers";
 import Settings from "../portal/settings/Index";
 import Support from "../portal/support/Index";
+import Applications from "../portal/applications/Applications";
 
 export const Navigation = () => {
   const userDetails = useContext(UserContext);
@@ -52,6 +53,7 @@ export const Navigation = () => {
             <Route path="complaints" element={<Complaints />} />
             <Route path="settings" element={<Settings />} />
             <Route path="support" element={<Support />} />
+            <Route path="Applications/:id" element={<Applications />} />
           </Route>
         </>
       ) : null}
