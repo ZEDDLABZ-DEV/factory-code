@@ -70,7 +70,7 @@ const CreateNewJobPosts = () => {
   };
   useEffect(() => {
     getTableData();
-  }, []);
+  });
 
   const previewJobs = (data) => {
     setPreviewModal(true);
