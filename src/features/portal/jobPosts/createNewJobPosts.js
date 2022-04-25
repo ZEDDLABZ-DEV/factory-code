@@ -1,9 +1,25 @@
-import { Button, Carousel, Input, Modal, Select, Table } from "antd";
+import {
+  Button,
+  Carousel,
+  Input,
+  Modal,
+  Select,
+  Table,
+  Row,
+  Col,
+  message,
+} from "antd";
 import { isEmpty } from "lodash";
 import React, { useContext, useEffect, useState } from "react";
+
+import { Swiper, SwiperSlide } from "swiper/react";
+import SwiperCore, { Navigation, Pagination } from "swiper";
+import { experience, gender, hours, salaryType } from "./utils/tableData";
+import { PreviewCard } from "./components/PreviewCard";
 import { UserContext } from "../../../App";
 import call from "../../../utils/call";
-import { experience, gender, hours, salaryType } from "./utils/tableData";
+
+SwiperCore.use([Pagination, Navigation]);
 
 const CreateNewJobPosts = () => {
   const [data, setData] = useState([]);
@@ -11,11 +27,16 @@ const CreateNewJobPosts = () => {
   const [view, setView] = useState(0);
   const [jobTItle, setJobTitle] = useState([]);
   const [skillTitle, setSkillTitle] = useState([]);
+  const [currentJobs, setCurrentJobs] = useState([]);
+  const [previewModal, setPreviewModal] = useState(false);
 
+  const [jobFormCount, setJobFormCount] = useState(1);
+
+  const [currentSlide, setCurrentSlide] = useState(1);
   const { Option } = Select;
 
   const userContext = useContext(UserContext);
-  console.log(userContext?.store?.data?.millOwner?.millInfo?.id)
+  console.log(userContext?.store?.data?.millOwner?.millInfo?.id);
 
   const contentStyle = {
     height: "260px",
@@ -51,10 +72,18 @@ const CreateNewJobPosts = () => {
     getTableData();
   }, []);
 
+  const previewJobs = (data) => {
+    setPreviewModal(true);
+    const jobs = [...data];
+    const newData = { jobs };
+    setCurrentJobs(jobs);
+  };
+
   const createJob = (data) => {
     console.log(data);
-    const  jobs = [...data]  
-    const newData = {jobs}
+    const jobs = [...data];
+    const newData = { jobs };
+
     call({
       url: `/api/job/bulk-insert/${userContext?.store?.data?.millOwner?.millInfo?.id}`,
       type: "POST",
@@ -71,10 +100,20 @@ const CreateNewJobPosts = () => {
         rowSelection={{
           onChange: (key, value) => {
             setData(
-              value?.map((item) => ({ jobTitle: item.label, id: item.id , accommodation: "false" ,duringTraining: "1200", messFacility: "false", transportation: "false", medicalFacility: "false",delisted: "false","meal1": "Morning",
-              "meal2": "AfterNoon",
-              "meal3": "Night",
-              "mealType": "Morning/AfterNoon/Night" }))
+              value?.map((item) => ({
+                jobTitle: item.label,
+                id: item.id,
+                accommodation: "false",
+                duringTraining: "1200",
+                messFacility: "false",
+                transportation: "false",
+                medicalFacility: "false",
+                delisted: "false",
+                meal1: "Morning",
+                meal2: "AfterNoon",
+                meal3: "Night",
+                mealType: "Morning/AfterNoon/Night",
+              }))
             );
           },
         }}
@@ -441,22 +480,57 @@ const CreateNewJobPosts = () => {
         dataSource={jobTItle}
         scroll={{ x: true }}
       />
-      <Button onClick={() => createJob(data)}>Review Jobs</Button>
-      <Modal visible={modal} footer={null} onCancel={() => setModal(false)}>
-        <Carousel afterChange={(value) => setView(value)}>
-          <div>
-            <h3 style={contentStyle}>1</h3>
-          </div>
-          <div>
-            <h3 style={contentStyle}>1</h3>
-          </div>
-          <div>
-            <h3 style={contentStyle}>1</h3>
-          </div>
-          <div>
-            <h3 style={contentStyle}>1</h3>
-          </div>
-        </Carousel>
+      <Button onClick={() => previewJobs(data)}>Review Jobs</Button>
+      <Modal
+        visible={previewModal}
+        className="jobs-preview-modal"
+        onCancel={() => setPreviewModal(false)}
+        title={
+          <Row className="preview-modal-title">
+            <Col>
+              <h3>All Previews</h3>
+            </Col>
+            <Col>
+              ({currentSlide}/{currentJobs.length})
+            </Col>
+          </Row>
+        }
+        footer={
+          <Row className="preview-modal-footer">
+            <Col>
+              <h3 style={{ color: "white", fontSize: 18, fontWeight: "bold" }}>
+                Total Job Posts Created : {currentJobs.length}
+              </h3>
+            </Col>
+            <Col>
+              <Button
+                style={{ color: "white", fontSize: 18, fontWeight: "bold" }}
+                type="text"
+                onClick={() => setPreviewModal(false)}
+              >
+                Cancel
+              </Button>
+              <Button className="add-job-btn" onClick={() => createJob()}>
+                Post
+              </Button>
+            </Col>
+          </Row>
+        }
+      >
+        <Swiper
+          spaceBetween={25}
+          slidesPerView={1}
+          navigation
+          onSlideChange={(swiper) => setCurrentSlide(swiper.activeIndex)}
+          onSwiper={(swiper) => console.log(swiper)}
+          style={{ padding: 5 }}
+        >
+          {currentJobs.map((cJob) => (
+            <SwiperSlide>
+              <PreviewCard jobData={cJob} />
+            </SwiperSlide>
+          ))}
+        </Swiper>
       </Modal>
     </div>
   );

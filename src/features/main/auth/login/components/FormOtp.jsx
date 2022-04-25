@@ -31,7 +31,7 @@ const FormOtp = ({ otpResponse, phoneNumber }) => {
             localStorage.setItem("jwt", JSON.stringify(res?.data?.token));
             axios({
               method: "GET",
-              url: "/api/auth/app-user/login",
+              url: "https://apitest.aamdhane.com/api/auth/app-user/login",
               headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${res?.data?.token}`,
@@ -40,18 +40,20 @@ const FormOtp = ({ otpResponse, phoneNumber }) => {
               .then((res) => {
                 dispatch({ data: res?.data });
                 localStorage.setItem("userDetails", JSON.stringify(res?.data));
-                navigation("/portal/dashboard");
+                navigate("/portal/dashboard");
               })
               .catch((err) => toast.error(err.response.data.message));
           })
 
           .catch((err) => {
-            console.log(err.response.data, "hello Error")
+            console.log(err.response.data, "hello Error");
             toast.error(err.response.data.error);
-            navigate("/signup", {state: {
-              phoneNumber: phoneNumber,
-              firebaseResponse: res,
-            }});
+            navigate("/signup", {
+              state: {
+                phoneNumber: phoneNumber,
+                firebaseResponse: res,
+              },
+            });
           });
       })
       .catch(() => {
