@@ -12,6 +12,7 @@ import { UserContext } from "../../../../App";
 export const Login = () => {
   const [verifyOtp, setVerifyOtp] = useState(false);
   const [confirmResponse, setConfirmOtpResponse] = useState({});
+  const [phoneNumber , setPhoneNumber] = useState("")
   return (
     <div>
       <Header />
@@ -37,22 +38,13 @@ export const Login = () => {
               <FormOtp otpResponse={confirmResponse} />
             ) : (
               <FormPhoneNumber
-                handleNextPage={(value, response) => {
+                handleNextPage={(value, response,phoneNumber) => {
                   setVerifyOtp(value);
                   setConfirmOtpResponse(response);
+                  setPhoneNumber(phoneNumber)
                 }}
               />
             )}
-
-            <h1 className="mt-2">
-              Don't have an account yet ?{" "}
-              <Link
-                to="/signup"
-                className=" font-bold hover:underline text-primaryBtn"
-              >
-                Sign Up
-              </Link>
-            </h1>
           </div>
         </LayoutTwo>
       </div>

@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { Navigate, useNavigate } from "react-router-dom";
 
-const FormOtp = ({ otpResponse }) => {
+const FormOtp = ({ otpResponse, phoneNumber }) => {
   const userDetails = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -17,6 +17,7 @@ const FormOtp = ({ otpResponse }) => {
     otpResponse
       ?.confirm(values.otp)
       .then((res) => {
+        console.log(res);
         toast.success("OTP Verified Successfully.");
         axios({
           method: "POST",
@@ -30,7 +31,7 @@ const FormOtp = ({ otpResponse }) => {
             localStorage.setItem("jwt", JSON.stringify(res?.data?.token));
             axios({
               method: "GET",
-              url: "https://apitest.aamdhane.com/api/auth/app-user/login",
+              url: "/api/auth/app-user/login",
               headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${res?.data?.token}`,
@@ -41,12 +42,21 @@ const FormOtp = ({ otpResponse }) => {
                 localStorage.setItem("userDetails", JSON.stringify(res?.data));
                 navigation("/portal/dashboard");
               })
-              .catch(() => {});
+              .catch((err) => toast.error(err.response.data.message));
           })
 
-          .catch(() => {});
+          .catch((err) => {
+            console.log(err.response.data, "hello Error")
+            toast.error(err.response.data.error);
+            navigate("/signup", {state: {
+              phoneNumber: phoneNumber,
+              firebaseResponse: res,
+            }});
+          });
       })
-      .catch(() => {navigate("/signup"); toast.error("Invalid OTP or Unregistered User")});
+      .catch(() => {
+        toast.error("Invalid OTP");
+      });
   };
 
   const formik = useFormik({

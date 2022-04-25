@@ -1,6 +1,7 @@
 import { Button, Carousel, Input, Modal, Select, Table } from "antd";
 import { isEmpty } from "lodash";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { UserContext } from "../../../App";
 import call from "../../../utils/call";
 import { experience, gender, hours, salaryType } from "./utils/tableData";
 
@@ -8,8 +9,13 @@ const CreateNewJobPosts = () => {
   const [data, setData] = useState([]);
   const [modal, setModal] = useState(false);
   const [view, setView] = useState(0);
-  const [industry, setIndustry] = useState([]);
+  const [jobTItle, setJobTitle] = useState([]);
+  const [skillTitle, setSkillTitle] = useState([]);
+
   const { Option } = Select;
+
+  const userContext = useContext(UserContext);
+  console.log(userContext?.store?.data?.millOwner?.millInfo?.id)
 
   const contentStyle = {
     height: "260px",
@@ -24,28 +30,61 @@ const CreateNewJobPosts = () => {
       url: "/api/admin-tasks/dropdown/industryType",
       type: "GET",
     })
-      .then((res) => setIndustry(res))
+      .then((res) =>
+        res.map((data) => {
+          console.log(data);
+          console.log(
+            userContext?.store?.data?.millOwner?.millInfo?.industryType
+          );
+          if (
+            data?.label ===
+            userContext?.store?.data?.millOwner?.millInfo?.industryType
+          ) {
+            setJobTitle(data.jobTitle);
+            setSkillTitle(data.skill);
+          }
+        })
+      )
       .catch(() => {});
   };
   useEffect(() => {
     getTableData();
   }, []);
 
+  const createJob = (data) => {
+    console.log(data);
+    const  jobs = [...data]  
+    const newData = {jobs}
+    call({
+      url: `/api/job/bulk-insert/${userContext?.store?.data?.millOwner?.millInfo?.id}`,
+      type: "POST",
+      body: newData,
+    })
+      .then((res) => console.log(res, "Hello 1"))
+      .catch((err) => console.log(err, "Hello 2"));
+  };
+
   return (
     <div className="px-12 pt-10 flex flex-col h-full">
       <Table
+        pagination={false}
         rowSelection={{
           onChange: (key, value) => {
-            setData(value?.map((item) => ({ name: item.label, id: item.id })));
+            setData(
+              value?.map((item) => ({ jobTitle: item.label, id: item.id , accommodation: "false" ,duringTraining: "1200", messFacility: "false", transportation: "false", medicalFacility: "false",delisted: "false","meal1": "Morning",
+              "meal2": "AfterNoon",
+              "meal3": "Night",
+              "mealType": "Morning/AfterNoon/Night" }))
+            );
           },
         }}
         rowKey="id"
         columns={[
           {
-            key: "job_title",
+            key: "jobTitle",
             title: "Job Title",
             width: "200px",
-            render: (data, record, index) => <p>{industry[index]?.label}</p>,
+            render: (data, record, index) => <p>{jobTItle[index]?.label}</p>,
           },
           {
             key: "experience",
@@ -59,20 +98,22 @@ const CreateNewJobPosts = () => {
                       ...data.slice(0, index),
                       {
                         ...data[index],
-                        experience: option,
+                        expReq: parseInt(option?.value),
                       },
                       ...data.slice(index + 1),
                     ])
                   }
-                  value={data[index]?.experience}
-                  className="w-24"
+                  value={data[index]?.expReq}
+                  className="w-24 bg-slate-700"
                   disabled={
                     isEmpty(data) ||
                     isEmpty(data.find((item) => item.id === record.id))
                   }
                 >
                   {experience.map((item) => (
-                    <Option key={item?.id}>{item?.name}</Option>
+                    <Option key={item?.id} value={item?.name}>
+                      {item?.name}
+                    </Option>
                   ))}
                 </Select>
               );
@@ -89,20 +130,23 @@ const CreateNewJobPosts = () => {
                     ...data.slice(0, index),
                     {
                       ...data[index],
-                      skills: option,
+                      skillReq: option?.value,
                     },
                     ...data.slice(index + 1),
                   ])
                 }
-                value={data[index]?.skills}
+                value={data[index]?.skill}
                 className="w-28"
                 disabled={
                   isEmpty(data) ||
                   isEmpty(data.find((item) => item.id === record.id))
                 }
               >
-                {industry[index]?.skill?.map((item) => (
-                  <Option key={item?.id}>{item?.label}</Option>
+                <Option value="unskilled">Unskilled</Option>
+                {skillTitle?.map((item) => (
+                  <Option key={item?.id} value={item?.label}>
+                    {item?.label}
+                  </Option>
                 ))}
               </Select>
             ),
@@ -118,12 +162,12 @@ const CreateNewJobPosts = () => {
                     ...data.slice(0, index),
                     {
                       ...data[index],
-                      gender: option,
+                      genderPreference: option?.value,
                     },
                     ...data.slice(index + 1),
                   ])
                 }
-                value={data[index]?.gender}
+                value={data[index]?.genderPreference}
                 className="w-24"
                 disabled={
                   isEmpty(data) ||
@@ -147,12 +191,13 @@ const CreateNewJobPosts = () => {
                     ...data.slice(0, index),
                     {
                       ...data[index],
-                      openings: e.target.value,
+                      peopleReq: e.target.value,
                     },
                     ...data.slice(index + 1),
                   ])
                 }
-                value={data[index]?.openings}
+                value={data[index]?.peopleReq}
+                className="w-24"
                 disabled={
                   isEmpty(data) ||
                   Object.values(data).find((item) =>
@@ -191,10 +236,9 @@ const CreateNewJobPosts = () => {
               </Select>
             ),
           },
-
           {
             key: "shift",
-            title: "Shifts",
+            title: "Shifts In Hours",
             width: "130px",
             render: (value, record, index) => (
               <Select
@@ -203,7 +247,7 @@ const CreateNewJobPosts = () => {
                     ...data.slice(0, index),
                     {
                       ...data[index],
-                      shifts: option,
+                      workingHours: parseInt(option?.value),
                     },
                     ...data.slice(index + 1),
                   ])
@@ -228,31 +272,36 @@ const CreateNewJobPosts = () => {
             title: "Salary in rupee",
             width: "130px",
             render: (value, record, index) => (
-              <Input
-                onChange={(e) =>
-                  setData([
-                    ...data.slice(0, index),
-                    {
-                      ...data[index],
-                      salary: e.target.value,
-                    },
-                    ...data.slice(index + 1),
-                  ])
-                }
-                value={data[index]?.salary}
-                disabled={
-                  isEmpty(data) ||
-                  Object.values(data).find((item) =>
-                    item?.id !== record?.id ? true : false
-                  )
-                }
-              />
+              <div className="w-40 flex">
+                <Input
+                  onChange={(e) =>
+                    setData([
+                      ...data.slice(0, index),
+                      {
+                        ...data[index],
+                        salaryPerShift: e.target.value,
+                      },
+                      ...data.slice(index + 1),
+                    ])
+                  }
+                  value={data[index]?.salaryPerShift}
+                  disabled={
+                    isEmpty(data) ||
+                    Object.values(data).find((item) =>
+                      item?.id !== record?.id ? true : false
+                    )
+                  }
+                />{" "}
+                <h1 className="w-12 ml-2">
+                  {data[index]?.salaryType?.children}
+                </h1>
+              </div>
             ),
           },
 
           {
-            key: "shift_in_hours",
-            title: "Shifts in hours",
+            key: "overtime_in_hours",
+            title: "Overtime in hours",
             width: "130px",
             render: (value, record, index) => (
               <Select
@@ -298,6 +347,7 @@ const CreateNewJobPosts = () => {
                   ])
                 }
                 value={data[index]?.overtimeSalary}
+                className="w-24"
                 disabled={
                   isEmpty(data) ||
                   Object.values(data).find((item) =>
@@ -324,7 +374,7 @@ const CreateNewJobPosts = () => {
                   ])
                 }
                 value={data[index]?.pf}
-                className="w-9"
+                className="w-24"
                 disabled={
                   isEmpty(data) ||
                   Object.values(data).find((item) =>
@@ -351,6 +401,7 @@ const CreateNewJobPosts = () => {
                   ])
                 }
                 value={data[index]?.esi}
+                className="w-24"
                 disabled={
                   isEmpty(data) ||
                   Object.values(data).find((item) =>
@@ -363,7 +414,6 @@ const CreateNewJobPosts = () => {
           {
             key: "additonal_details",
             title: "Additional Details",
-            width: "130px",
             render: (value, record, index) => (
               <Input
                 onChange={(e) =>
@@ -377,6 +427,7 @@ const CreateNewJobPosts = () => {
                   ])
                 }
                 value={data[index]?.additionalHours}
+                className="w-60"
                 disabled={
                   isEmpty(data) ||
                   Object.values(data).find((item) =>
@@ -387,10 +438,10 @@ const CreateNewJobPosts = () => {
             ),
           },
         ]}
-        dataSource={industry}
+        dataSource={jobTItle}
         scroll={{ x: true }}
       />
-      <Button onClick={() => setModal(true)}>Review Jobs</Button>
+      <Button onClick={() => createJob(data)}>Review Jobs</Button>
       <Modal visible={modal} footer={null} onCancel={() => setModal(false)}>
         <Carousel afterChange={(value) => setView(value)}>
           <div>
